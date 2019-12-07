@@ -1,3 +1,8 @@
 # http://www.inanzzz.com/index.php/post/zpbw/creating-a-simple-php-fpm-nginx-and-mysql-application-with-docker-compose
 
-[TODO] mysql didn`t work ...
+[POC]
+$ curl localhost
+Welcome!
+
+$ curl localhost/connect.php
+Successful database connection!

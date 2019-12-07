@@ -1,3 +1,3 @@
-FROM php:7.2-fpm
+FROM php:fpm-alpine
 
 RUN docker-php-ext-install mysqli
