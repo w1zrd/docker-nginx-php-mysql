@@ -2,15 +2,15 @@ version: '3'
 
 services:
 
-    php:
+    phpfpm:
         build:
             context: ./php
             dockerfile: Dockerfile
-        ports:
-            - 9000:9000
         volumes:
             - ./app:/srv/www
             - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+        networks:
+             - www
         environment:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -22,17 +22,22 @@ services:
         volumes:
             - ./app:/srv/www
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - www
         depends_on:
-            - php
+            - phpfpm
 
     mysql:
-        image: mysql:5.7
-        ports:
-            - 3306:3306
+        image: mysql:latest
         depends_on:
-            - php
+            - phpfpm
+        networks:
+            - www
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+networks:
+    www:
